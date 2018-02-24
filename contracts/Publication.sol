@@ -20,16 +20,25 @@ contract Publication {
 	// function getName() public view returns (string) {
 	//   return name;
 	// }
-	mapping (address => string) user;
-	mapping (pub => address) authors;
-	string name;
 
-	function Publication() {
-
+	struct Pub{
+		string name;
+		string data;
+		uint date;
 	}
 
-	function _setUsername(string _name){
-		user[msg.sender] = _name;
+	mapping (address => string) users;
+	mapping (string => address) authors;
+	Pub[] public publications; 
+	string name;
+
+	function _setUsername(string _name) private{
+		users[msg.sender] = _name;
+	}
+
+	function _addPublication(string _name, string _data) private{
+		authors[_name] = msg.sender;
+		publications.push(Pub(_name, _data, now));
 	}
 
 
