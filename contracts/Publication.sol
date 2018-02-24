@@ -1,6 +1,8 @@
 pragma solidity ^0.4.18;
 
-contract Publication {
+import "../node_modules/zeppelin-solidity/contracts/ownership/Ownable.sol";
+
+contract Publication is Ownable{
 	// uint storedData;
 	// string name;
 
@@ -21,24 +23,60 @@ contract Publication {
 	//   return name;
 	// }
 
+	string username;	// username
+
 	struct Pub{
-		string name;
-		string data;
-		uint date;
+		uint128 pubNum;	// publication id
+		string name;	// name of publication
+		string data;	// data / publication itself
+		uint date;		// date of publication
 	}
 
-	mapping (address => string) users;
-	mapping (string => address) authors;
-	Pub[] public publications; 
-	string name;
+	event PublicationAdded(string _name, address _addr);
 
-	function _setUsername(string _name) private{
-		users[msg.sender] = _name;
+	mapping (address => string) user;		// address -> username
+	mapping (string => address) userAddress;// username ->	
+	mapping (uint128 => address) author;	// pub num -> author
+	mapping (address => uint16) numberOfPublications;	// address -> number of pubs
+	
+	Pub[] public publications; 				// list of publications
+	
+	function _setUsername(string _name) private onlyOwner{
+		if (userAddress[_name] != address(0)) {
+			userAddress[_name] = address(0);
+		}
+		username = _name;
+		userAddress[_name] = msg.sender;
+		user[msg.sender] = _name;
 	}
 
-	function _addPublication(string _name, string _data) private{
-		authors[_name] = msg.sender;
-		publications.push(Pub(_name, _data, now));
+	function _addPublication(string _name, string _data) private {
+		author[uint128(publications.length)] = msg.sender;
+		publications.push(Pub(uint128(publications.length),_name, _data, now));
+		numberOfPublications[msg.sender]++;
+		PublicationAdded(_name, msg.sender);
+	}
+
+	function _getOwnPublications() private view onlyOwner returns(string[]) {
+		string[] memory pubNames = new string[](numberOfPublications[msg.sender]);
+		uint16 c = 0;
+		for (uint i = 0; i<publications.length; i++) {
+			if(author[publications[i].pubNum] == msg.sender) {
+				pubNames[c] = publications[i].name;
+				c++;
+			}
+		}
+	}
+
+	function getPublications(string _username) public view returns(Pub[]){
+		string[] memory pubNames = new string[](numberOfPublications[msg.sender]);
+		uint16 c = 0;
+		for (uint i = 0; i<publications.length; i++) {
+			if(author[publications[i].pubNum] == userAddress[_username]) {
+				pubNames[c] = publications[i].name;
+				c++;
+			}
+		}
 	}
 
 
