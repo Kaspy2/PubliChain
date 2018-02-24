@@ -79,7 +79,13 @@ contract Publication is Ownable{
 		}
 	}
 
-
+	function getPublication (uint128 _publicationNumber) public view returns(Pub) {
+		for (uint128 i = 0; i<publications.length; i++) {
+			if(publications[i].pubNum == _publicationNumber) {
+				return publications[i];
+			}
+		}
+	}
 
 }
 
