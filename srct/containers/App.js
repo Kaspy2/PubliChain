@@ -12,12 +12,17 @@ class App extends Component {
     const {message} = this.props.messageReducer;
     return (
       <div>
-        <InputPreview value={message} onChange={this._onChange}/>
-        <Link to="/about">
-        <button>Go to About</button>
+        
+        <Link to="/authors">
+        <button>Upload your creation</button>
+        </Link>
+        <Link to="/view">
+        <button>Publications</button>
         </Link>
       </div>
     )
   }
 }
 export default connect(state => state)(App);
+
+//<InputPreview value={message} onChange={this._onChange}/>

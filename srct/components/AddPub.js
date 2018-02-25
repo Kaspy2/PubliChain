@@ -220,7 +220,7 @@ function getPContractInstance() {
       "type": "function"
     }
   ]);
-	return PubContract.at("0x90fbc44fc6f93b773d0111b830bb27cd42292c9f")
+	return PubContract.at("0x4ac562dbcba73fae01f6e74773183cc394f98512")
 }
 
 class ArticleUploadForm extends Component {
@@ -239,7 +239,6 @@ class ArticleUploadForm extends Component {
     let username = this.PContractInstance.getUsername.call({from: this.web3.eth.accounts[0]});
     this.state={username: username, name: '', url: '', references_no: 0, references: [], pContract: this.pContract};
 
-    //this.ipfsApi = IpfsApi(host: 'localhost', port:5001, {protocol: 'http'});
   }
 
   handleChange(event) {
@@ -250,27 +249,8 @@ class ArticleUploadForm extends Component {
     if(this.state.username === ""){
       alert("fill username bamboccu");
     }else{
-        // var data;
-        //  this.ipfsApi.add([this.state.url]).then((response) => {
-        //    data = response[0].Hash;
-        //    console.log(ipfsId)
-        //  });
-
-        //this.ipfsApi.addFromFs()
-
-        var data;
-        ipfs.add(this.state.url,
-        (err, result) => {
-         if(!err) {
-           data = result;
-           console.log("Data: "+data);
-         }
-         else {
-          console.log("AWWWW" + err);
-         }
-        });
         this.PContractInstance.setUsername(this.state.author_username,{gas: 460000, from: this.web3.eth.accounts[0]});
-        this.PContractInstance.addPublication(this.state.name, data, {gas: 460000, from: this.web3.eth.accounts[0]}, (err, result) => {console.log(err); console.log(result);});
+        this.PContractInstance.addPublication(this.state.name, this.state.url, {gas: 460000, from: this.web3.eth.accounts[0]}, (err, result) => {console.log(err); console.log(result);});
         event.preventDefault();
       }
   }
@@ -320,9 +300,9 @@ class ArticleUploadForm extends Component {
   //    )
   //  }
   render() {
-    let refs = [];
+    //let refs = [];
     // for(var i = 0; i < this.state.references_no; i++){
-    //   refs.push(<div>{i}<input type="text" value={this.state.references[i]} onChange={(evt) => this.handleChangeRef(evt, i)}/></div>);
+    //   refs.push(<div><input type="text" value={this.state.references[i]} onChange={(evt) => this.handleChangeRef(evt, i)}/></div>);
     // }
   
     return (
@@ -330,6 +310,7 @@ class ArticleUploadForm extends Component {
       <Link to="/">
         <button>Go Home</button>
       </Link>
+      <a id="paymentAnchor" href="./"> <div id="Button">Donate<span id="img"></span></div></a>
         <form onSubmit={this.handleSubmit}>
           <label>
             Username:
@@ -343,10 +324,9 @@ class ArticleUploadForm extends Component {
             URL:
             <input type="text" value={this.state.url} onChange={this.handleChange}/>
           </label>
-          {refs}
+          
           <input type="submit" value="Submit"/>
-          <button id="delete_ref_button" type="del_ref" onClick={this.handleDelRef}>Delete Last Reference</button>
-          <button id="add_ref_button" type="add_ref" onClick={this.handleAddRef}>Add Reference</button>
+          
         </form>
       </div>
     )

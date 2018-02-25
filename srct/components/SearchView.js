@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux';
 import Web3 from 'web3'
 
+
 function getPContractInstance() {
-	let provider = new Web3.providers.HttpProvider("http://localhost:9545");
-	let web3 = new Web3(provider);
-	let PubContract = web3.eth.contract([
+  let provider = new Web3.providers.HttpProvider("http://localhost:9545");
+  let web3 = new Web3(provider);
+  let PubContract = web3.eth.contract([
     {
       "constant": true,
       "inputs": [
@@ -69,6 +70,20 @@ function getPContractInstance() {
       "type": "function"
     },
     {
+      "constant": true,
+      "inputs": [],
+      "name": "getUsername",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "constant": false,
       "inputs": [
         {
@@ -114,6 +129,20 @@ function getPContractInstance() {
         }
       ],
       "name": "getPublicationsByUsername",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint128[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getTopTen",
       "outputs": [
         {
           "name": "",
@@ -185,7 +214,7 @@ function getPContractInstance() {
       "type": "function"
     }
   ]);
-	return PubContract.at("0x90fbc44fc6f93b773d0111b830bb27cd42292c9f")
+  return PubContract.at("0x4ac562dbcba73fae01f6e74773183cc394f98512")
 }
 
 class AuthorPage extends Component {
