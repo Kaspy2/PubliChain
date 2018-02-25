@@ -1,0 +1,46 @@
+@color_1: black;
+@font_family_1: Roboto, sans-serif;
+@background_color_1: gold;
+
+body {
+	background-image: url("back.jpg");
+	//background-image: url("https://newevolutiondesigns.com/images/freebies/google-material-design-wallpaper-2.jpg");
+	text-align: left;
+	padding-left: 40px;
+	padding-top: 25px;
+	font-family: @font_family_1;
+	font-size: 1.4rem;
+}
+ul {
+	list-style: none;
+}
+li {
+	padding-bottom: 15px;
+}
+a {
+	text-decoration: none;
+	text-align: center;
+	&:hover {
+		box-shadow: black;
+	}
+	&:visited {
+		color: @color_1;
+	}
+}
+#Button {
+	border-radius: 25px;
+	width: 130px;
+	height: 35px;
+	border-bottom: 5px solid rgb(150, 128, 3);
+	top: 50%;
+	left: 50%;
+	background-color: @background_color_1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#img {
+	content: url("https://cdn-images-1.medium.com/max/1600/1*L8ODr3uJlh44i1SgjlMv7w.png");
+	height: 28px;
+	padding-left: 8px;
+}

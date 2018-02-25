@@ -1,0 +1,127 @@
+@color_1: black;
+@color_2: rgb(6, 6, 51);
+@font_family_1: Roboto, sans-serif;
+@background_color_1: gold;
+@background_color_2: rgba(202, 202, 202, 0.795);
+@background_color_3: rgb(131, 131, 131);
+
+@keyframes "etherDance" {
+	0% {
+		left: 0px;
+		top: 0px;
+	}
+	25% {
+		left: 0px;
+		top: 2px;
+	}
+	75% {
+		left: 0px;
+		top: -2px;
+	}
+	100% {
+		left: 0px;
+		top: 0px;
+	}
+}
+body {
+	//background-image: url("back.jpg");
+	text-align: left;
+	padding-top: 25px;
+	font-family: @font_family_1;
+	font-size: 1.4rem;
+}
+#uol {
+	list-style: none;
+	padding: 0;
+}
+.uolli {
+	padding-bottom: 25px;
+}
+#paymentAnchor {
+	border-radius: 25px;
+	text-decoration: none;
+	text-align: center;
+	display: inline-block;
+	border-bottom: 5px solid rgb(150, 128, 3);
+	&:visited {
+		color: @color_1;
+	}
+	&:hover {
+		transform: translateY(5px);
+		border-bottom: 0px solid;
+		padding-bottom: 5px;
+	}
+}
+#Button {
+	border-radius: 25px;
+	width: 130px;
+	height: 35px;
+	top: 50%;
+	left: 50%;
+	background-color: @background_color_1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#img {
+	//content: url("ether.png");
+	height: 28px;
+	padding-left: 8px;
+	position: relative;
+	animation-name: etherDance;
+	animation-duration: 0.5s;
+	animation-iteration-count: infinite;
+}
+a {
+	&:hover {
+		#img {
+			animation-duration: 0.1s;
+		}
+	}
+}
+#menuBar {
+	background-color: @background_color_2;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	margin: 0;
+	li {
+		display: inline;
+		padding: 20px;
+	}
+}
+.menuItem {
+	&:hover {
+		background-color: @background_color_3;
+		overflow: hidden;
+		height: 20px;
+		padding-top: 15px;
+		padding-bottom: 15px;
+	}
+	text-decoration: none;
+	color: @color_2;
+}
+#menul {
+	list-style: none;
+	padding: 15px;
+	margin: 0px;
+	overflow: hidden;
+}
+#app {
+	border-top-left-radius: 25px;
+	border-top-right-radius: 25px;
+	position: absolute;
+	z-index: 15;
+	top: 40%;
+	left: 38%;
+	background-color: @background_color_2;
+	text-align: center;
+	color: @color_2;
+	overflow: hidden;
+	min-height: 495px;
+	height: auto;
+	margin: -100px 0 0 -150px;
+	width: 300px;
+	border-right: 150px solid transparent;
+	border-left: 120px solid transparent;
+}

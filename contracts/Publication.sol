@@ -24,7 +24,6 @@ contract Publication {
 	//   return name;
 	// }
 
-	string username;	// username
 
 	struct Pub{
 		uint128 pubNum;	// publication id
@@ -36,7 +35,7 @@ contract Publication {
 	event PublicationAdded(string _name, address _addr);
 
 	mapping (address => string) user;		// address -> username
-	mapping (string => address) userAddress;// username ->	
+	mapping (string => address) userAddress;// username -> address
 	mapping (uint128 => address) author;	// pub num -> author
 	mapping (address => uint16) numberOfPublications;	// address -> number of pubs
 	
@@ -48,9 +47,12 @@ contract Publication {
 		if (userAddress[_name] != address(0)) {
 			userAddress[_name] = address(0);
 		}
-		username = _name;
 		userAddress[_name] = msg.sender;
 		user[msg.sender] = _name;
+	}
+
+	function getUsername() public view returns(string){
+		return user[msg.sender];
 	}
 
 	function addPublication(string _name, string _data) public {
@@ -62,24 +64,39 @@ contract Publication {
 
 	function _getOwnPublications() private view 
 	// onlyOwner 
-	returns(string[]) {
-		string[] memory pubNames = new string[](numberOfPublications[msg.sender]);
-		uint16 c = 0;
-		for (uint i = 0; i<publications.length; i++) {
-			if(author[publications[i].pubNum] == msg.sender) {
-				pubNames[c] = publications[i].name;
-				c++;
-			}
-		}
-	}
-
-	function getPublications(string _username) public view returns(uint128[]){
+	returns(uint128[]) {
 		uint128[] memory pubNums = new uint128[](numberOfPublications[msg.sender]);
 		uint16 c = 0;
 		for (uint i = 0; i<publications.length; i++) {
-			if(author[publications[i].pubNum] == userAddress[_username]) {
+			if(author[publications[i].pubNum] == msg.sender) {
 				pubNums[c] = publications[i].pubNum;
 				c++;
+			}
+		}
+		return pubNums;
+	}
+
+	function getPublications(address _addr) public view returns(uint128[]){
+		uint128[] memory pubNums = new uint128[](numberOfPublications[_addr]);
+		uint16 c = 0;
+		for (uint i = 0; i<publications.length; i++) {
+			if(author[publications[i].pubNum] == _addr) {
+				pubNums[c] = publications[i].pubNum;
+				c++;
+			}
+		}
+		return pubNums;
+	}
+
+	function getPublicationsByUsername(string _username) public view returns(uint128[]){
+		return getPublications(userAddress[_username]);
+	}
+
+	function getTopTen() public view returns(uint128[]){
+		uint128[] memory pubNums = new uint128[](10);
+		for (uint i = 0; i<10; i++) {
+			if(publications.length-i > 0){
+				pubNums[i] = publications[publications.length-i].pubNum;
 			}
 		}
 		return pubNums;
